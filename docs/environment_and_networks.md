@@ -67,5 +67,36 @@
     - Security actions<br>
     - Data retention periods.<br>
 
+# Positioning of testnet / mainnet
+
+## Value
+  **Testnet**<br>
+  - Uses fake or valueless tokens.<br>
+  - For experiment without financial risk.<br>
+
+  **Mainnet**<br>
+  - Uses real cryptocurrency, NFT, and tokens with actual monetary value.<br>
+  - Transactions involve real economic stakes.<br>
+
+## Operational Risk
+  **Testnet**<br>
+  - Failures have no real-world consequences.<br>
+  - A safe space to make mistakes and fix bugs.<br>
+  - Used to validate architecture and deployment pipelines before mainnet launch.<br>
+  
+  **Mainnet**<br>
+  - Bugs, misconfigurations, or exploits can lead to irreversible financial loss, reputational damage, or regulatory consequences.<br>
+  - Uptime and performance directly impact users and stakeholders.<br>
+  - Strict security policies, monitoring, and critical incident response.<br>
+
+## Irreversibility
+  **Testnet**<br>
+  - Transactions are technically irreversible on-chain, but since the network has no real value it has no real-world consequences.<br>
+  
+  **Mainnet**<br>
+  - All transactions are permanent and irreversible once confirmed.<br>
+  - No central authority can "undo" a transaction-even if it results from a bug or hack.<br>
+    
   
   
+
