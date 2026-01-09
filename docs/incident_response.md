@@ -1,9 +1,9 @@
-**1) Impact/Risk**
+## 1) Impact/Risk
 - Business disruption and revenue loss.
 - Loss of data integrity and/or data duplication.
 - Builds poor repution and customers may lose trust.
 
-**2) What to check in the first 5 minutes** <br>
+## 2) What to check in the first 5 minutes
 This should be the traffic flow Domain -> Public IP -> Firewall -> Ingress/Reverse proxy(TLS termination) -> Application Endpoint. 
    1. First, check where the requests are being terminated. I suspect a TLS/SSL certificate expiry issue, as all the webhooks failed.
    2. Use curl or other client libraries to test the connectivity. If not reachable, check whether the inbound/outbound ports have been blocked.
@@ -14,7 +14,7 @@ This should be the traffic flow Domain -> Public IP -> Firewall -> Ingress/Rever
    4. Check the queue and/or database status. The webhook may fail if the queue and/or database are not functional.
    5. For external webhooks, check their webhook status. They may be facing downtime or API rate limiting.
  
- **3) Top 3 root-cause hypotheses (prioritized) + verification steps**
+ ## 3) Top 3 root-cause hypotheses (prioritized) + verification steps
    1. Webhooks can become unreachable due to various issues, including general network errors, a Web Application Firewall (WAF) blocking the IP address,
       blocked ports, an Ingress misconfiguration, or an expired TLS/SSL certificate.<br>
     ```$ curl https://codelabfzc.com/test-webhook/```<br>
@@ -28,22 +28,23 @@ This should be the traffic flow Domain -> Public IP -> Firewall -> Ingress/Rever
    3. External webhook provider or service downtime<br>
       Use Postman/Curl/Client libraries to test the APIs.
 
-**4) Top 2 temporary mitigations**
+## 4) Top 2 temporary mitigations
    1. Restart the applications and/or the Ingress or reverse proxy to restore functionality.  If the problem is due to a recent deployment,
       roll back to a previous stable version. Additionally, restart dependent services-such as the database, message queue, or other backend components-if necessary.
    2. Whitelist the external webhook IPs and/or update your firewall or WAF rules. If the ingress is broken, bypass it temporarily using a proxy or tunnel.
       If available, redirect traffic to a secondary webhook endpoint.
 
-**5) Top 2 permanent fixes**
+## 5) Top 2 permanent fixes
    1. Implement idempotent, queue-based webhook processing with Dead Letter handling.
    2. Set up redundancy for reverse proxies and application endpoints, automate certificate renewals,
       and enable comprehensive monitoring across both the transport and application layers.
 
-**6) Proposal for monitoring / alert additions**
+## 6) Proposal for monitoring / alert additions
    1. Continuously monitor the health of your infrastructure, ingress/reverse proxy, application endpoints, queues, and databases, and send alerts if any component fails. 
    2. Check for available upgrades to the external webhook, and monitor the health, response codes, and retry queue for both internal and external webhooks.
 
-**7) Post-incident follow-up**<br><br>
+## 7) Post-incident follow-up
+
    **Technical**
    1. Verify that all webhook events were successfully delivered or replayed from retry queues, ensuring no data duplication and no missing financial transactions.
    2. Root cause analysis.
@@ -56,7 +57,8 @@ This should be the traffic flow Domain -> Public IP -> Firewall -> Ingress/Rever
    3. Create a simple critical incident document with key steps, contacts, and actions to take during an outage or major issue.
    4. Prepare for audits and maintain compliance with relevant standards.
 
-**Include how to restore consistency after recovery**
+## Include how to restore consistency after recovery
    1. Verify that all webhook events were successfully delivered or replayed from retry queues.
    2. Use custom scripts to check for data deduplication.
    3. Compare the financial transactions recorded in the system with the total payments reported by the payment gateway to ensure consistency and detect discrepancies.
+
