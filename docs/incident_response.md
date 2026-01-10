@@ -18,7 +18,7 @@ This should be the traffic flow Domain -> Public IP -> Firewall -> Ingress/Rever
    1. Webhooks can become unreachable due to various issues, including general network errors, a Web Application Firewall (WAF) blocking the IP address,
       blocked ports, an Ingress misconfiguration, or an expired TLS/SSL certificate.<br>
     ```$ curl https://codelabfzc.com/test-webhook/```<br>
-    ``` $ openssl s_client -connect codelabfzc.com:443 -servername codelabfzc.com 2>/dev/null | grep "Verify return code" ```
+    ``` $ echo | openssl s_client -servername codelabfzc.com -connect codelabfzc.com:443 2>/dev/null ```
    2. Application-Level failure or deadlock<br>
       Check application logs in the ELK or similar service. Other useful commands are<br>
       ``` $ docker logs <container-name> ```<br>
@@ -61,4 +61,5 @@ This should be the traffic flow Domain -> Public IP -> Firewall -> Ingress/Rever
    1. Verify that all webhook events were successfully delivered or replayed from retry queues.
    2. Use custom scripts to check for data deduplication.
    3. Compare the financial transactions recorded in the system with the total payments reported by the payment gateway to ensure consistency and detect discrepancies.
+
 
