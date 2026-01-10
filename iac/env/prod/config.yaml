@@ -1,0 +1,17 @@
+vpc:
+  name: main
+  cidr: 172.16.0.0/16
+  subnet:
+    name: public-subnet
+    cidr: 172.16.16.0/24
+availability_zone: us-east-2a
+sg:
+  name: web-sg
+  ssh_source_cidr: "103.72.212.33/32"
+  http_source_cidr: "0.0.0.0/0"
+igw_name: igw
+ec2:
+  ami: ami-xxxx
+  type: t3.large
+  key: key_name
+  name: web
