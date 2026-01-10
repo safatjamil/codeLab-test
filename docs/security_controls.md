@@ -66,8 +66,51 @@
   &nbsp;&nbsp;&nbsp;- Unique request ID for replay protection.<br>
   &nbsp;&nbsp;&nbsp;- Idempotency key to safely retry failed deliveries.<br>
   
+## 2) Configuration Example##
+  Below is the Terraform configuration to allow and block IPs in Cloudflare.<br>
+  Reference: https://registry.terraform.io/providers/jalmonter/lt-cloudflare/latest/docs/resources/access_application
+  ```
+  resource "cloudflare_access_application" "dev_auth_api" {
+    name       = "DEV Auth API"
+    domain     = "dev-auth.codelabfzc.com"
+    type       = "self_hosted"
+  
+    # Allow, Developers, QAs, and DevOps/SREs
+    ip_rules = [
+      { ip = "103.72.212.33/24", action = "allow" }, # Developers and QA
+      { ip = "192.168.0.105/32", action = "allow" }, # DevOps bastion
+      { ip = "0.0.0.0/0", action = "block" }         # Block all others
+    ]
+  
+    # rate limit
+    rate_limit {
+      threshold = 10
+      period    = 60
+      action    = "block"
+    }
+  }
+```
 
-  
-  
+## 3) Operational Procedures##
+
+**Secret Rotation**<br>
+&nbsp;&nbsp;- **Creation**: Created automatically by secrets manager or manually via incident response.<br>
+&nbsp;&nbsp;- **Versioning**: New secret version is generated.<br>
+&nbsp;&nbsp;- **Deployment**: Update applications to accept the new secrets temporarily (Blue/green deployment).<br>
+&nbsp;&nbsp;- **Verification**: Verify applications functionality.<br>
+&nbsp;&nbsp;- **Deprecation**: Deprecate the old secret.<br>
+&nbsp;&nbsp;- **Logging**: Update the audit logs.<br>
+
+**Access permission review**<br>
+&nbsp;&nbsp;- Follow the principle of least privilege by using fine-grained roles and policies.<br>
+&nbsp;&nbsp;- Quarterly access reviews for all human users and service accounts.<br>
+&nbsp;&nbsp;- Monitor usage and remove inactive entities.<br>
+
+**Exception handling**<br>
+&nbsp;&nbsp;- All exceptions are logged and flagged for post-expiry audit.<br>
+&nbsp;&nbsp;- Must be approved by the security team or platform owner.
+
+
+
     
-    
+
