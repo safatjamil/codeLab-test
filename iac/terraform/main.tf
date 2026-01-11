@@ -26,7 +26,7 @@ module "vpc" {
 }
 
 module "security" {
-    source      = "./modules/vpc"
+    source      = "./modules/security"
     vpc_name    = local.config.vpc.name
     ssh_source_cidr  =  local.config.sg.ssh_source_cidr
     http_source_cidr = local.config.sg.http_source_cidr
